@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AETHERIS // Next-Gen Low-Latency AI Video Call</title>
+  <meta name="description" content="Experience lag-free AI video calling with premium rendering, daily token allocations, and high-fidelity styling.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Age Verification Gateway -->
+  <div class="gateway-overlay" id="gateway-overlay">
+    <div class="gateway-card glass-panel">
+      <div class="gateway-logo">AETHERIS</div>
+      <div class="gateway-title">Age Verification Required</div>
+      <div class="gateway-desc">
+        This platform contains interactive AI human avatars. You must be 18 years of age or older to enter and utilize these calling communication systems. Please confirm your age to proceed.
+      </div>
+      <div class="gateway-buttons">
+        <button class="btn-gateway enter" id="btn-gate-enter">I am 18+ (Enter)</button>
+        <button class="btn-gateway exit" id="btn-gate-exit">Exit</button>
+      </div>
+      <div class="gateway-blocked-msg" id="gate-blocked-msg">Access Denied. You must be 18+ to enter Aetheris.</div>
+    </div>
+  </div>
+
+  <!-- Premium Header -->
+  <header>
+    <div class="logo">
+      <div class="logo-icon"></div>
+      <span>AETHERIS AI</span>
+    </div>
+    
+    <div class="header-status">
+      <div class="latency-badge">
+        <div class="latency-dot"></div>
+        <span id="latency-val">Latency: 0ms (Ultra-Low)</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Application Main Workspace -->
+  <main class="app-container">
+    
+    <!-- Video Calling Workspace -->
+    <section class="video-workspace">
+      
+      <!-- Video Grid -->
+      <div class="video-grid">
+        <!-- AI stream (Main) -->
+        <div class="ai-stream-container">
+          <div class="call-badge">
+            <span class="badge-item pink">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+              AI MODEL: <span id="current-model-name">Priya (Saree)</span>
+            </span>
+            <span class="badge-item blue" id="call-timer-badge">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span id="call-timer">00:00</span>
+            </span>
+          </div>
+          
+          <!-- Image-based AI Model display -->
+          <div class="ai-image-wrapper">
+            <img id="ai-model-img" src="saree_model.jpg" alt="AI Model">
+            <!-- Simulated dynamic voice wave overlay -->
+            <div class="audio-wave-container" id="audio-wave-bars">
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+            </div>
+          </div>
+          
+          <div class="overlay-fx"></div>
+        </div>
+
+
+        <!-- Local camera (PIP) -->
+        <div class="local-stream-container">
+          <div class="camera-placeholder" id="local-cam-placeholder">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            <span>Camera Preview</span>
+          </div>
+          <video id="local-video" autoplay playsinline muted></video>
+        </div>
+      </div>
+
+      <!-- Controls Panel -->
+      <div class="call-controls glass-panel">
+        <button id="btn-audio" class="btn-control active" title="Toggle Microphone">
+          <!-- Mic On icon -->
+          <svg class="icon-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+        </button>
+        
+        <button id="btn-video" class="btn-control active" title="Toggle Webcam">
+          <!-- Video On icon -->
+          <svg class="icon-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+        </button>
+
+        <button id="btn-call" class="btn-control end-call" title="Disconnect Call">
+          <!-- Phone Hangup icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67 19.42 19.42 0 0 1-2.67-3.33A19.79 19.79 0 0 1 2 4.78 2 2 0 0 1 4 2.56h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8 10.48a16.13 16.13 0 0 0 2.68 2.83z"></path></svg>
+        </button>
+
+        <button id="btn-noise" class="btn-control active" title="Noise Suppression (Ultra-Low Lag)">
+          <!-- Waves/Noise Cancellation icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 10v4M6 6v12M10 3v18M14 8v8M18 5v14M22 10v4"></path></svg>
+        </button>
+
+        <button id="btn-filter" class="btn-control" title="Cycle AI Model Camera Filters">
+          <!-- Filter sliders icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- Right Sidebar Panels -->
+    <aside class="sidebar">
+
+      <!-- AI Girls Model Gallery -->
+      <div class="model-gallery-card glass-panel">
+        <h2 class="gallery-title">AI Models (18+ Access)</h2>
+        <div class="model-avatars-grid">
+          
+          <div class="model-avatar-item active" data-model="priya_saree" title="Priya (Saree)">
+            <div class="avatar-img-wrapper">
+              <img src="saree_model.jpg" alt="Priya">
+            </div>
+            <div class="avatar-online-dot"></div>
+            <div class="avatar-name-lbl">Priya</div>
+          </div>
+
+          <div class="model-avatar-item" data-model="ananya_beach" title="Ananya (Beach Dress)">
+            <div class="avatar-img-wrapper">
+              <img src="beach_dress_model.jpg" alt="Ananya">
+            </div>
+            <div class="avatar-online-dot"></div>
+            <div class="avatar-name-lbl">Ananya</div>
+          </div>
+
+          <div class="model-avatar-item" data-model="kavya_cyberpunk" title="Kavya (Cyberpunk Red)">
+            <div class="avatar-img-wrapper">
+              <img src="cyberpunk_suit_model.jpg" alt="Kavya">
+            </div>
+            <div class="avatar-online-dot"></div>
+            <div class="avatar-name-lbl">Kavya</div>
+          </div>
+
+          <div class="model-avatar-item" data-model="zara_denim" title="Zara (Denim Blue)">
+            <div class="avatar-img-wrapper">
+              <img src="denim_blue_model.jpg" alt="Zara">
+            </div>
+            <div class="avatar-online-dot"></div>
+            <div class="avatar-name-lbl">Zara</div>
+          </div>
+
+          <div class="model-avatar-item" data-model="chloe_active" title="Chloe (Active Sportswear)">
+            <div class="avatar-img-wrapper">
+              <img src="sportswear_pink_model.jpg" alt="Chloe">
+            </div>
+            <div class="avatar-online-dot"></div>
+            <div class="avatar-name-lbl">Chloe</div>
+          </div>
+
+        </div>
+      </div>
+      
+      <!-- Token Manager System Card -->
+      <div class="token-card glass-panel">
+        <div class="token-header">
+          <h2 class="token-title">Token Engine</h2>
+          <span class="token-status-label" id="token-status-indicator">Active</span>
+        </div>
+        
+        <div class="token-display">
+          <span class="token-count" id="token-count-val">100</span>
+          <span class="token-max">/ 100 TOKENS</span>
+        </div>
+
+        <div class="token-progress-bar">
+          <div class="token-progress-fill" id="token-progress-fill-bar" style="width: 100%;"></div>
+        </div>
+
+        <div class="token-info">
+          <p>Every active minute uses 1 Token. AI calling is available 24/7.</p>
+          <div class="countdown-wrapper">
+            <span class="countdown-label">Daily 100 Grant Reset In:</span>
+            <span class="countdown-time" id="countdown-timer">23:59:59</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Chat / Transcript Panel -->
+      <div class="transcript-card glass-panel">
+        <div class="transcript-header">
+          <h2 class="transcript-title">Live AI Transcript</h2>
+          <select id="ai-mood" class="ai-mood-select" title="Switch AI Model">
+            <option value="priya_saree">Priya (Saree Model)</option>
+            <option value="ananya_beach">Ananya (Beach Dress)</option>
+            <option value="kavya_cyberpunk">Kavya (Cyberpunk Red)</option>
+            <option value="zara_denim">Zara (Denim Blue)</option>
+            <option value="chloe_active">Chloe (Active Sportswear)</option>
+          </select>
+        </div>
+
+        <div class="transcript-body" id="transcript-container">
+          <div class="chat-bubble ai">
+            Hello! I am your real-time virtual assistant. Let's start the video call. Toggle your mic/camera to interact.
+            <span class="bubble-time" id="greeting-time">15:22</span>
+          </div>
+        </div>
+        
+        <!-- Interactive Chat Input -->
+        <div class="chat-input-area">
+          <input type="text" id="chat-user-input" placeholder="Type message to the model..." autocomplete="off">
+          <button id="btn-chat-send" title="Send Message">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Call Performance Metrics -->
+      <div class="stats-panel glass-panel">
+        <div class="stat-item">
+          <span class="stat-label">FPS</span>
+          <span class="stat-value" id="stat-fps">60.0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Jitter</span>
+          <span class="stat-value" id="stat-jitter">0.1 ms</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Network Lag</span>
+          <span class="stat-value" style="color: #ff007f;" id="stat-lag">0 ms</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Audio Latency</span>
+          <span class="stat-value" id="stat-audio">0.05 ms</span>
+        </div>
+      </div>
+
+    </aside>
+  </main>
+
+  <!-- Premium Footer -->
+  <footer>
+    <div class="copyright">
+      &copy; 2026 AETHERIS Call Systems Inc. All rights reserved.
+    </div>
+    <div class="legal-links">
+      <span class="legal-link" id="link-terms">Terms & Conditions</span>
+      <span class="legal-link" id="link-privacy">Privacy Policy</span>
+    </div>
+  </footer>
+
+  <!-- TERMS AND CONDITIONS MODAL -->
+  <div class="modal" id="modal-terms">
+    <div class="modal-content glass-panel">
+      <div class="modal-header">
+        <h2 class="modal-title">Terms & Conditions</h2>
+        <button class="btn-close" id="close-terms" aria-label="Close modal">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Effective Date: July 26, 2026</strong></p>
+        <p>Welcome to Aetheris AI Video Call platform ("Service"). By accessing or using our low-latency calling solutions, you agree to comply with and be bound by the following comprehensive Terms and Conditions. Please review them carefully.</p>
+        
+        <h3>1. Acceptance of Terms</h3>
+        <p>Aetheris Call Systems Inc. provides high-definition artificial intelligence conversation services, audio-visual rendering, and interactive voice calling. By connecting to our signaling servers or initializing an AI session, you enter into a legally binding contract governed by these Terms.</p>
+        
+        <h3>2. Description of Service</h3>
+        <p>The Service provides simulated and server-rendered real-time video avatars designed to communicate via interactive synthetic audio streams. While we strive to provide zero-lag transmissions, structural performance depends heavily on local bandwidth, client configurations, and WebRTC hardware compatibility.</p>
+        
+        <h3>3. Token Allocation and Economy</h3>
+        <p>To ensure fair sharing of computing power across our GPU nodes, each user is granted an allocation of exactly 100 daily tokens free of charge.
+        <ul>
+          <li>Tokens are consumed at a rate of 1 token per 1 minute of active call time.</li>
+          <li>Once tokens are exhausted, calling functionalities will lock until the next calendar day.</li>
+          <li>Daily token resets occur 24/7 on a rolling 24-hour cycle from the point of user registration or local session initiation.</li>
+          <li>Tokens carry no cash value, are non-transferable, and do not roll over to subsequent days.</li>
+        </ul>
+        </p>
+
+        <h3>4. Acceptable Conduct</h3>
+        <p>You agree not to exploit our video streaming engines, reverse-engineer synthetic voice frequencies, or attempt Denial of Service (DoS) attacks on our edge server APIs. You must grant valid camera/microphone permissions for interactive mode, and respect simulated legal boundaries.</p>
+
+        <h3>5. Limitation of Liability</h3>
+        <p>AETHERIS SYSTEMS AND ITS AFFILIATES SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGE RESULTING FROM AVATAR RESPONSES, SIMULATED LAG REDUCTIONS, OR SYSTEM INTERRUPTIONS. THE SERVICE IS PROVIDED "AS IS" WITHOUT EXPRESS WARRANTIES OF ANY KIND.</p>
+        
+        <h3>6. Amendments</h3>
+        <p>We reserve the right to modify these terms at any time. Continued use of the platform constitutes full acceptance of modified terms.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRIVACY POLICY MODAL -->
+  <div class="modal" id="modal-privacy">
+    <div class="modal-content glass-panel">
+      <div class="modal-header">
+        <h2 class="modal-title">Privacy Policy</h2>
+        <button class="btn-close" id="close-privacy" aria-label="Close modal">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Last Updated: July 26, 2026</strong></p>
+        <p>Your privacy is central to our values. This Privacy Policy details how Aetheris collects, processes, and protects your information, including camera stream analysis, microphone recording data, and token usage statistics.</p>
+        
+        <h3>1. Data We Do Not Store</h3>
+        <p>Unlike standard call providers, Aetheris processes video streams and audio inputs in memory directly on the client side using the HTML5 Web Audio API and WebRTC local loopbacks. We do NOT record or save your webcam video frame-by-frame on remote database servers. All real-time synthesis remains transient.</p>
+        
+        <h3>2. Information We Collect</h3>
+        <p>We collect structural parameters to optimize local performance:
+        <ul>
+          <li><strong>Token Usage:</strong> Call duration times, token counts, and token replenishment cycles are stored locally in secure browser storage (localStorage) to verify daily allocations.</li>
+          <li><strong>Performance Telemetry:</strong> Estimated fps, browser media streams layout, local network latency, and selected AI mood targets are used to adjust Canvas visualizer response curves.</li>
+        </ul>
+        </p>
+
+        <h3>3. AI Processing & Speech Data</h3>
+        <p>When you speak to the avatar, microphone audio is analyzed using local FFT spectral nodes to render visual feedback. Speech-to-text transcription occurs dynamically and locally. Transcripts generated during the session are held in transient memory and deleted immediately upon ending the call.</p>
+
+        <h3>4. Security of Media Feeds</h3>
+        <p>We utilize browser sandbox features to isolate WebRTC camera tracks. Any media interaction is conducted within strict HTTPS context constraints to prevent visual hacking or frame injection.</p>
+
+        <h3>5. Third-Party Disclosures</h3>
+        <p>Aetheris does not sell, trade, or distribute your behavioral telemetry, token history, or chat transcripts to advertising firms or metadata consolidators.</p>
+        
+        <h3>6. Your Rights</h3>
+        <p>You can revoke microphone or camera access at any time through your browser's security settings. Clearing your browser's cache will reset all local storage data, including token configurations.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Banner -->
+  <div class="notification" id="app-notification">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+    <span id="notification-message">Daily 100 Token grant initialized.</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
