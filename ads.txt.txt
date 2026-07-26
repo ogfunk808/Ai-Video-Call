@@ -1,2 +1,0 @@
-google.com, pub-1560865754891276, DIRECT, f08c47fec0942fa0
-ai-video-call.vercel.app
